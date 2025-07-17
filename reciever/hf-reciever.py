@@ -1,4 +1,4 @@
-from Sky-CLI.LoRa-RaspberryPi import loralib                                                          
+from LoRaRaspberryPi import loralib                                                          
 import time
 
 loralib.init(1, 868000000, 7)
