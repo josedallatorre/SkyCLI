@@ -1,1 +1,1 @@
-# Sky-CLI
+# SkyCLI
