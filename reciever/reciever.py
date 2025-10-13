@@ -3,7 +3,7 @@ import logging
 import time
 
 #create logger
-logging.basicConfig(filename='./log/%d-%m-%y.log')
+logging.basicConfig(filename='./log/%d-%m-%y.log', filemode='w')
 logger = logging.getLogger('reciever')
 logger.setLevel(logging.DEBUG)
 
