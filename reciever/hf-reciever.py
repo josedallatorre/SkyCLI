@@ -15,6 +15,13 @@ logger.critical('critical message')
 
 for i in range(0,10000000):
   msg=loralib.recv()
-  if msg[5] == 0 and msg[1] > 0:
-    print(msg)
+  # check if valid message received
+  if msg[5] == 0:
+    if msg[1] > 0:
+      logger.info("Valid msg: %s", msg)
+    else:
+      logger.info("Empty msg: %s", msg)
+  else:
+    logger.warning("Invalid msg: %s", msg)
+  print(msg)
   time.sleep(0.001)
