@@ -15,6 +15,7 @@ for i in range(0,10000000):
     temp -= counter[1] * (255**1)
     counter[0] = i // (255**2)
     temp -= counter[0] * (255**2)
+    print(counter, temp, i)
     loralib.send(b'counter:' + bytes(counter) + b': hello')
     logger.info(f"Sent message {i}: hello")
     time.sleep(0.01)
