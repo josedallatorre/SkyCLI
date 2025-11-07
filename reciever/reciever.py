@@ -12,7 +12,7 @@ logger.warning('warn message')
 logger.error('error message')
 logger.critical('critical message')
 
-for i in range(0,10000000):
+for i in range(0,12000):
   msg=loralib.recv()
   # check if valid message received
   if msg[5] == 0:

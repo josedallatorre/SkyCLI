@@ -7,7 +7,7 @@ logger = create_logger('sender')
 
 counter = [0, 0, 0]
 
-for i in range(0,10000000):
+for i in range(0,12000):
     temp = i
     counter[0] = temp // (255**2)
     temp -= counter[0] * (255**2)
