@@ -5,14 +5,16 @@ from utils.logging import create_logger
 loralib.init(0, 868000000, 7)
 logger = create_logger('sender')
 
-# 'application' code
-logger.debug('debug message')
-logger.info('info message')
-logger.warning('warn message')
-logger.error('error message')
-logger.critical('critical message')
+counter = [0, 0, 0]
 
 for i in range(0,10000000):
-    loralib.send(f"{i}: hello".encode())
+    temp = i
+    counter[0] = i // (255**3)
+    temp -= counter[0] * (255**3)
+    counter[1] = i // (255**2) 
+    temp -= counter[1] * (255**2)
+    counter[2] = i // 255
+    temp -= counter[2] * 255
+    loralib.send(b'counter:' + bytes(counter) + b': hello')
     logger.info(f"Sent message {i}: hello")
     time.sleep(1)
