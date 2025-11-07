@@ -17,11 +17,11 @@ for i in range(0,10000000):
   # check if valid message received
   if msg[5] == 0:
     if msg[1] > 0:
-      logger.info("Valid msg: %s", msg)
+      logger.info(f"Counter: {i}, valid msg: %s", msg)
     else:
-      logger.info("Empty msg: %s", msg)
+      logger.info(f"Counter: {i}, empty msg: %s", msg)
   else:
-    logger.warning("Invalid msg: %s", msg)
+    logger.warning(f"Counter: {i}, invalid msg: %s", msg)
   print("%06d, frame=" % i, end='')
   print(msg)
   time.sleep(1)
