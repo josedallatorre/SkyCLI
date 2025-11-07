@@ -19,8 +19,8 @@ for i in range(0,10000000):
     if msg[1] > 0:
       logger.info(f"Counter: {i}, valid msg: %s", msg)
       msg_str = msg[0].decode("utf-8", errors='ignore')
-      x = msg_str.split(':')[1].splt(':')[0]
-      print(f"Counter value: {int.from_bytes(x.encode())}")
+      x = msg_str.split(':')[1].split(':')[0]
+      print(f"Counter value: {int.from_bytes(x.encode())}, {msg_str}, {x}")
     else:
       logger.info(f"Counter: {i}, empty msg: %s", msg)
   else:
