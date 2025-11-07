@@ -24,4 +24,4 @@ for i in range(0,10000000):
     logger.warning(f"Counter: {i}, invalid msg: %s", msg)
   print("%06d, frame=" % i, end='')
   print(msg)
-  time.sleep(1)
+  time.sleep(0.01)
