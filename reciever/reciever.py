@@ -24,4 +24,7 @@ for i in range(0,10000000):
     logger.warning(f"Counter: {i}, invalid msg: %s", msg)
   print("%06d, frame=" % i, end='')
   print(msg)
+  msg_str = msg.decode(errors='ignore')
+  x = msg_str.split(':')[1].splt(':')[0]
+  print(f"Counter value: {int.from_bytes(x.encode())}")
   time.sleep(0.01)
