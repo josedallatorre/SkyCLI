@@ -9,6 +9,8 @@ counter = [0, 0, 0]
 
 for i in range(0,12000):
     temp = i
+    #TODO: substitute the magic number with index of 
+    #the list
     counter[0] = temp // (255**2)
     temp -= counter[0] * (255**2)
     counter[1] = temp // (255**1) 
