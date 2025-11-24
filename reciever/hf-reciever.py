@@ -2,8 +2,7 @@ from LoRaRaspberryPi import loralib
 import time
 from utils.logging import create_logger
 
-loralib.init(1, 868000000, 7)
-
+loralib.init(1, 868000000, 7) #init LoRa in reciever mode, freq 868MHz, spread factor 7
 logger = create_logger('hf-reciever')
 
 # 'application' code
