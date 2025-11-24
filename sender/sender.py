@@ -3,7 +3,7 @@ import time
 from utils.logging import create_logger
 from utils.conversion import toDigits
 
-loralib.init(0, 868000000, 7)
+loralib.init(0, 868000000, 7) # init LoRa in sender mode, freq 868MHz, spread factor 7
 logger = create_logger('sender')
 
 for i in range(0,12000):
