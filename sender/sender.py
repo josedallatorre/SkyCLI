@@ -1,13 +1,13 @@
-from LoRaRaspberryPi import loralib                                                          
+from LoRaRaspberryPi import loralib
 import time
 from utils.logging import create_logger
-from utils.convertion import toDigits
+from utils.conversion import toDigits
 
 loralib.init(0, 868000000, 7)
 logger = create_logger('sender')
 
 
-for i in range(1,12000):
+for i in range(0,12000):
     temp = i
     digits = toDigits(temp, 255)
     print(digits, temp, i)
