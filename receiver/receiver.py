@@ -19,7 +19,7 @@ for i in range(0,12000):
     if msg[1] > 0:
       logger.info(f"valid msg: %s", msg)
     else:
-      logger.info(f"empty msg: %s", msg)
+      logger.debug(f"empty msg: %s", msg)
   else:
     logger.warning(f"invalid msg: %s", msg)
   print("%06d, frame=" % i, end='')
