@@ -3,7 +3,7 @@ import time
 from utils.logging import create_logger
 
 loralib.init(1, 868000000, 7) #init LoRa in receiver mode, freq 868MHz, spread factor 7
-logger = create_logger('hf-receiver')
+logger = create_logger('hfreceiver')
 
 # 'application' code
 logger.debug('debug message')
