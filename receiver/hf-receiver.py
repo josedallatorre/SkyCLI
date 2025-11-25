@@ -3,7 +3,7 @@ import time
 from utils.logging import create_logger
 
 loralib.init(1, 868000000, 7) #init LoRa in receiver mode, freq 868MHz, spread factor 7
-logger = create_logger('hf-reciever')
+logger = create_logger('hf-receiver')
 
 # 'application' code
 logger.debug('debug message')
@@ -17,10 +17,10 @@ for i in range(0,10000000):
   # check if valid message received
   if msg[5] == 0:
     if msg[1] > 0:
-      logger.info(f"Counter: {i}, valid msg: %s", msg)
+      logger.info(f"valid msg: %s", msg)
     else:
-      logger.info(f"Counter: {i}, empty msg: %s", msg)
+      logger.info(f"empty msg: %s", msg)
   else:
-    logger.warning(f"Counter: {i}, invalid msg: %s", msg)
+    logger.warning(f"invalid msg: %s", msg)
   print(msg)
   time.sleep(0.001)
