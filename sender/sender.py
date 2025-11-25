@@ -12,5 +12,5 @@ for i in range(0,12000):
     digits = toDigits(temp, 255) 
     print(digits, temp, i)
     loralib.send(b'counter:' + bytes(digits) + b': hello')
-    logger.info(f"Sent message {i} in digits {digits}: hello")
+    logger.info(f"Sent message {i} in digits {digits} in bytes {bytes(digits)}: hello")
     time.sleep(0.01)
