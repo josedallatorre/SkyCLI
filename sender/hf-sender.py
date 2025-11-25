@@ -4,7 +4,7 @@ from utils.logging import create_logger
 from utils.conversion import toDigits
 
 loralib.init(0, 868000000, 7) # init LoRa in sender mode, freq 868MHz, spread factor 7
-logger = create_logger('hf-sender')
+logger = create_logger('hfsender')
 
 for i in range(0,10000000):
     temp = i
