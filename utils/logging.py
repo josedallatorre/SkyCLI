@@ -13,7 +13,7 @@ def create_logger(communicator: str):
   logger = logging.getLogger(communicator)
   logger.setLevel(logging.DEBUG)
 
-  fh = logging.FileHandler(filename='./log/{}/{:%Y-%m-%d}.log'.format(communicator, datetime.now()), mode='w')
+  fh = logging.FileHandler(filename='./log/{}/{:%Y-%m-%d}.log'.format(communicator, datetime.now()), mode='a')
   fh.setLevel(logging.DEBUG)
 
   # create console handler and set level to debug
