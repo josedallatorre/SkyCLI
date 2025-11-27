@@ -2,10 +2,19 @@ from LoRaRaspberryPi import loralib
 import time
 from utils.logging import create_logger
 from utils.conversion import toDigits
+from math import ceil
 import sys
 
 loralib.init(0, 868000000, 7) # init LoRa in sender mode, freq 868MHz, spread factor 7
 logger = create_logger('sender')
+
+def calculate_airtime(SF, BW, PL, H, DE, CR, n_preamble):
+    Tsym = 2**SF / BW
+    time_preamble = (n_preamble + 4.25)  * Tsym
+    payloadSymbNb = 8 + max(ceil((8*PL - 4*SF + 28 + 16 - 20*H) / (4*(SF - 2*DE))) * (CR + 4), 0)
+    time_payload = payloadSymbNb * Tsym
+    time_packet = time_preamble + time_payload
+    return time_packet
 
 for i in range(0,12000):
     temp = i
@@ -13,7 +22,9 @@ for i in range(0,12000):
     digits = toDigits(temp, 255) 
     print(digits, temp, i)
     msg = b'counter:' + bytes(digits) + b': hello'
+    size_msg = sys.getsizeof(msg)
+    airtime = calculate_airtime(SF=7, BW=125000, PL=size_msg, H=0, DE=0, CR=1, n_preamble=8)
     loralib.send(msg)
-    print(sys.getsizeof(msg))
     logger.info(f"Sent message {i} in digits {digits} in bytes {bytes(digits)}: hello")
-    time.sleep(0.01)
+    time.sleep(airtime)
+
