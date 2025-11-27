@@ -12,7 +12,9 @@ logger.warning('warn message')
 logger.error('error message')
 logger.critical('critical message')
 
-for i in range(0,10000000):
+time_start = time.perf_counter()
+time_elapsed = 0
+while(time_elapsed  < 120):
   msg=loralib.recv()
   # check if valid message received
   if msg[5] == 0:
@@ -23,4 +25,4 @@ for i in range(0,10000000):
   else:
     logger.warning(f"invalid msg: %s", msg)
   print(msg)
-  time.sleep(0.001)
+  time_elapsed = time.perf_counter() - time_start
