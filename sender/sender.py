@@ -4,8 +4,9 @@ from utils.logging import create_logger
 from utils.conversion import toDigits
 from math import ceil
 import sys
+SF = 7
 
-loralib.init(0, 868000000, 7) # init LoRa in sender mode, freq 868MHz, spread factor 7
+loralib.init(0, 868000000, SF) # init LoRa in sender mode, freq 868MHz, spread factor
 logger = create_logger('sender')
 
 def calculate_airtime(SF, BW, PL, H, DE, CR, n_preamble):
@@ -26,7 +27,7 @@ while(time_elapsed  < 120): # send for 2 minutes
     print(digits, i)
     msg = b'counter:' + bytes(digits) + b': hello'
     size_msg = sys.getsizeof(msg)
-    airtime = calculate_airtime(SF=7, BW=125000, PL=size_msg, H=0, DE=0, CR=1, n_preamble=8)
+    airtime = calculate_airtime(SF=SF, BW=125000, PL=size_msg, H=0, DE=0, CR=1, n_preamble=8)
     loralib.send(msg)
     logger.info(f"Sent message {i} in digits {digits} in bytes {bytes(digits)}: hello")
     time.sleep(airtime)
