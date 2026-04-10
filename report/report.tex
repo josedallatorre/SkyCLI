@@ -37,18 +37,24 @@ git clone https://github.com/wdomski/LoRa-RaspberryPi.git
 wget https://github.com/WiringPi/WiringPi/releases/download/3.16/wiringpi_3.16_armhf.deb
 sudo dpkg -i wiringpi_3.16_armhf.deb
 \end{minted}
-Modificare Makefile in base alla versione di python
+\#
+Lastly we need to modify two files inside the LoRa-RaspberryPi folder:
+\begin{itemize}
+        \item Makefile: we need to make sure that \#PYTHONVER=python3.11 match our python version
+        \item lora.c: we need to put \#define PY\_SSIZE\_T\_CLEAN on the first line for compatibility with new versions of python
+\end{itemize}
+We can check out version of python with this command:
 \begin{minted}{bash}
 python3 --version
-nano Makefile
-# PYTHONVER=python3.11
-nano lora.c
-#define PY_SSIZE_T_CLEAN -> nella prima riga
+\end{minted}
+All these changes are already been made in the repo. \\
+Finally we can compile with the following command:
+\begin{minted}{bash}
 make all
 \end{minted}
-\subsection{Hardware}
-\subsection{Software}
 \section{Proposed solution}
+In this section we present the proposed solution, starting with its folder structure then explaining the code for the sender and the receiver. Lastly we present the code for the analysis.
+\subsection{Software}
 python -m reciever.hf-reciever
 https://www.thethingsnetwork.org/docs/lorawan/spreading-factors/
 https://avbentem.github.io/airtime-calculator/ttn/eu868
