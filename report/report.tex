@@ -1,0 +1,64 @@
+\documentclass[14pt]{article}
+\usepackage[letterpaper,top=3.5cm,bottom=3.5cm,left=2cm,right=2cm]{geometry}
+\usepackage{import}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[svgnames]{xcolor}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{listings}
+\usepackage{minted}
+\usepackage{url}
+\usepackage[backend=bibtex, sorting=none]{biblatex}
+\usepackage{subfiles} % Best loaded last in the preamble
+\addbibresource[]{bibliography.bib}
+
+\title{
+        Autonomous and Intelligent Systems \\
+        Internship report
+}
+\author{Jos\`e Dalla Torre \\ 143216@spes.uniud.it}
+\date{April 2026}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+\section{Evaluating LoRa Comunication Protocol}
+\newpage
+\section{Setup}
+After setting up the Raspberry Pi following the \href{https://www.raspberrypi.com/documentation/computers/getting-started.html}{official guide} we need to enable SPI (Serial Peripheral Interface) selecting interface and then SPI after using the following command. \\
+\begin{minted}{bash}
+sudo raspi-config
+\end{minted}
+Then we need to clone the repository and its dependencies with the following command:
+\begin{minted}[breaklines]{bash}
+git clone https://github.com/wdomski/LoRa-RaspberryPi.git
+wget https://github.com/WiringPi/WiringPi/releases/download/3.16/wiringpi_3.16_armhf.deb
+sudo dpkg -i wiringpi_3.16_armhf.deb
+\end{minted}
+Modificare Makefile in base alla versione di python
+\begin{minted}{bash}
+python3 --version
+nano Makefile
+# PYTHONVER=python3.11
+nano lora.c
+#define PY_SSIZE_T_CLEAN -> nella prima riga
+make all
+\end{minted}
+\subsection{Hardware}
+\subsection{Software}
+\section{Proposed solution}
+python -m reciever.hf-reciever
+https://www.thethingsnetwork.org/docs/lorawan/spreading-factors/
+https://avbentem.github.io/airtime-calculator/ttn/eu868
+\subsection{Sender}
+\subsection{Reciever}
+\newpage
+\appendix
+\newpage
+
+%\bibliographystyle{plainurl} 
+\printbibliography
+
+\end{document}
