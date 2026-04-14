@@ -27,7 +27,8 @@
 \section{Evaluating LoRa Comunication Protocol}
 \newpage
 \section{Setup}
-After setting up the Raspberry Pi following the \href{https://www.raspberrypi.com/documentation/computers/getting-started.html}{official guide} we need to enable SPI (Serial Peripheral Interface) selecting interface and then SPI after using the following command. \\
+In this section we present how to setup correctly the OS for the RaspberryPi, the repository and the libraries used by the proposed solution. \\
+After setting up the Raspberry Pi following the \href{https://www.raspberrypi.com/documentation/computers/getting-started.html}{official guide} we need to enable SPI (Serial Peripheral Interface) selecting "Interface" and then "SPI" after using the following command.
 \begin{minted}{bash}
 sudo raspi-config
 \end{minted}
@@ -37,29 +38,36 @@ git clone https://github.com/wdomski/LoRa-RaspberryPi.git
 wget https://github.com/WiringPi/WiringPi/releases/download/3.16/wiringpi_3.16_armhf.deb
 sudo dpkg -i wiringpi_3.16_armhf.deb
 \end{minted}
-\#
 Lastly we need to modify two files inside the LoRa-RaspberryPi folder:
 \begin{itemize}
-        \item Makefile: we need to make sure that \#PYTHONVER=python3.11 match our python version
-        \item lora.c: we need to put \#define PY\_SSIZE\_T\_CLEAN on the first line for compatibility with new versions of python
+        \item Makefile: we need to make sure that \#PYTHONVER=python3.11 match our Python version:
+        \item lora.c: we need to put \#define PY\_SSIZE\_T\_CLEAN on the first line for compatibility with new versions of Python.
 \end{itemize}
 We can check out version of python with this command:
 \begin{minted}{bash}
 python3 --version
 \end{minted}
-All these changes are already been made in the repo. \\
-Finally we can compile with the following command:
+These two changes are already been made in the \href{https://github.com/josedallatorre/SkyCLI/}{updated repository} with the proposed solution inside the "src" folder. \\
+Finally we need to compile with the following command:
 \begin{minted}{bash}
 make all
 \end{minted}
 \section{Proposed solution}
 In this section we present the proposed solution, starting with its folder structure then explaining the code for the sender and the receiver. Lastly we present the code for the analysis.
-\subsection{Software}
-python -m reciever.hf-reciever
-https://www.thethingsnetwork.org/docs/lorawan/spreading-factors/
-https://avbentem.github.io/airtime-calculator/ttn/eu868
+\subsection{Folder structure}
+Inside the repository there are three folder:
+\begin{itemize}
+        \item analysis: inside this folder there's a notebook with the code for the analysis that will be explained later.
+        \item report: we can ignore this folder since it has been used to store the files needed for this report.
+        \item src: inside this folder there's the code for the receiver and the sender, then the libraries used by both. There's also a utils folder with some helper function for logging and converting digits.
+\end{itemize}
+https://www.thethingsnetwork.org/docs/lorawan/spreading-factors/ \\
+https://avbentem.github.io/airtime-calculator/ttn/eu868 \\
 \subsection{Sender}
 \subsection{Reciever}
+\begin{minted}[breaklines]{bash}
+python -m reciever.hf-reciever 
+\end{minted}
 \newpage
 \appendix
 \newpage
