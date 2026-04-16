@@ -59,11 +59,19 @@ Inside the repository there are three folder:
 \begin{itemize}
         \item analysis: inside this folder there's a notebook with the code for the analysis that will be explained later.
         \item report: we can ignore this folder since it has been used to store the files needed for this report.
-        \item src: inside this folder there's the code for the receiver and the sender, then the libraries used by both. There's also a utils folder with some helper function for logging and converting digits.
+        \item src: inside this folder there's the code for the receiver and the sender, then the libraries used by both. There's also a utils folder with helper functions for logging and converting digits.
 \end{itemize}
-https://www.thethingsnetwork.org/docs/lorawan/spreading-factors/ \\
-https://avbentem.github.io/airtime-calculator/ttn/eu868 \\
 \subsection{Sender}
+Insider the sender folder there are two files: \\
+hf-sender.py: this file was used to test the maximum message sending capacity. It wasn't used during the tests, the reasons will explained later. \\
+During the tests with hf-sender it has been observed that the messages were corrupted or the receiver didn't receive them correctly. \\
+After reading this \href{https://www.thethingsnetwork.org/docs/lorawan/spreading-factors/}{article} the code has been updated in a new file called sender.py
+In this new file the messages were delayed based on the airtime. \\
+To calculate the airtime it has been used the formula defined in \href{https://www.mouser.com/pdfdocs/semtech-lora-modem-design.pdf}{Semtech's LoRa Modem Designer's Guide (AN1200.13)}. \href{https://avbentem.github.io/airtime-calculator/ttn/eu868}{This} website visually explain how airtime is influenced by factor like payload size and data rate. \\
+After this consideration 
+\begin{minted}[breaklines]{bash}
+python -m sender.sender 
+\end{minted}
 \subsection{Reciever}
 \begin{minted}[breaklines]{bash}
 python -m reciever.hf-reciever 
