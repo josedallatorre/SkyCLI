@@ -27,52 +27,58 @@
 \section{Evaluating LoRa Comunication Protocol}
 \newpage
 \section{Setup}
-In this section we present how to setup correctly the OS for the RaspberryPi, the repository and the libraries used by the proposed solution. \\
-After setting up the Raspberry Pi following the \href{https://www.raspberrypi.com/documentation/computers/getting-started.html}{official guide} we need to enable SPI (Serial Peripheral Interface) selecting "Interface" and then "SPI" after using the following command.
+In this section is presented how to setup correctly the OS for the RaspberryPi, the repository and the libraries used by the proposed solution. \\
+After setting up the Raspberry Pi following the \href{https://www.raspberrypi.com/documentation/computers/getting-started.html}{official guide} it's necessary to enable SPI (Serial Peripheral Interface) selecting "Interface" and then "SPI" after using the following command.
 \begin{minted}{bash}
 sudo raspi-config
 \end{minted}
-Then we need to clone the repository and its dependencies with the following command:
+Then it's necessary to download the WiringPi library used to access GPIO with high performance. To do so requires the following command:
 \begin{minted}[breaklines]{bash}
-git clone https://github.com/wdomski/LoRa-RaspberryPi.git
 wget https://github.com/WiringPi/WiringPi/releases/download/3.16/wiringpi_3.16_armhf.deb
 sudo dpkg -i wiringpi_3.16_armhf.deb
 \end{minted}
-Lastly we need to modify two files inside the LoRa-RaspberryPi folder:
+Lastly it's necessary to modify two files inside the LoRa-RaspberryPi folder:
 \begin{itemize}
-        \item Makefile: we need to make sure that \#PYTHONVER=python3.11 match our Python version:
-        \item lora.c: we need to put \#define PY\_SSIZE\_T\_CLEAN on the first line for compatibility with new versions of Python.
+        \item Makefile: \#PYTHONVER=python3.11 needs to match system's Python version:
+        \item lora.c: it's necessary to add \#define PY\_SSIZE\_T\_CLEAN on the first line for compatibility with new versions of Python.
 \end{itemize}
-We can check out version of python with this command:
+To check out which version of Python it's installed use this command:
 \begin{minted}{bash}
 python3 --version
 \end{minted}
-These two changes are already been made in the \href{https://github.com/josedallatorre/SkyCLI/}{updated repository} with the proposed solution inside the "src" folder. \\
-Finally we need to compile with the following command:
+These two changes are already been made in the \href{https://github.com/josedallatorre/SkyCLI/}{updated repository} with the proposed solution inside the "src" folder. \\ 
+Finally it's necessary to compile with the following command:
 \begin{minted}{bash}
 make all
 \end{minted}
 \section{Proposed solution}
-In this section we present the proposed solution, starting with its folder structure then explaining the code for the sender and the receiver. Lastly we present the code for the analysis.
+In this section is presented the proposed solution, starting with its folder structure then explaining the code for the sender and the receiver. Lastly the code for the analysis will be presented.
 \subsection{Folder structure}
 Inside the repository there are three folder:
 \begin{itemize}
-        \item analysis: inside this folder there's a notebook with the code for the analysis that will be explained later.
-        \item report: we can ignore this folder since it has been used to store the files needed for this report.
+        \item report: this folder can be ignored since it has been used to store the files needed for this report.
         \item src: inside this folder there's the code for the receiver and the sender, then the libraries used by both. There's also a utils folder with helper functions for logging and converting digits.
+        \item analysis: inside this folder there's a notebook with the code for the analysis that will be explained later.
 \end{itemize}
 \subsection{Sender}
 Insider the sender folder there are two files: \\
-hf-sender.py: this file was used to test the maximum message sending capacity. It wasn't used during the tests, the reasons will explained later. \\
+hf-sender.py: this file was used to test the maximum message sending capacity. It wasn't used during the last tests, the reasons will explained later. \\
 During the tests with hf-sender it has been observed that the messages were corrupted or the receiver didn't receive them correctly. \\
 After reading this \href{https://www.thethingsnetwork.org/docs/lorawan/spreading-factors/}{article} the code has been updated in a new file called sender.py
 In this new file the messages were delayed based on the airtime. \\
 To calculate the airtime it has been used the formula defined in \href{https://www.mouser.com/pdfdocs/semtech-lora-modem-design.pdf}{Semtech's LoRa Modem Designer's Guide (AN1200.13)}. \href{https://avbentem.github.io/airtime-calculator/ttn/eu868}{This} website visually explain how airtime is influenced by factor like payload size and data rate. \\
-After this consideration 
+To start sending messages use the following command inside the "src" folder:
 \begin{minted}[breaklines]{bash}
 python -m sender.sender 
 \end{minted}
 \subsection{Reciever}
+Insider the receiver folder there are two files: \\
+receiver.py: this file was used to test if the receiver could actually receive and log the message. After the first test it has been observed that looping through a fixed range of values isn't the best approach since the sender and the reciever can't synchronize. 
+
+
+After this consideration it has been decided to choose a fixed amount of time, in this case 2 minutes, to send and receive messages. In this new file the messages were delayed based on the airtime. \\
+
+To start receiving messages use the following command inside the "src" folder:
 \begin{minted}[breaklines]{bash}
 python -m reciever.hf-reciever 
 \end{minted}
