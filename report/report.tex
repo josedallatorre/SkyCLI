@@ -88,7 +88,17 @@ Inside the utils folder there are two files:
 The first file has been created to solve the following problem: since the LoRaRaspberryPi library only transmit bytes of data it's necessary to convert the counter to a list of digits in base 255. \\
 It's has been used a list of digits to be able to send a counter greater than 255.
 \subsection{Analysis}
-In this section will be presented the data analysis based on the tests made outside the SMACT 3 laboratory.
+In this section will be presented the data analysis based on the tests made outside the SMACT 3 laboratory. \\
+In total 7 test has been done:
+\begin{itemize}
+        \item  first test: communication in the parking lot of the laboratory, ~100 meters. LoRa spreading factor set to 7.
+        \item  second test: same as the first but with a spreading factor set to 12.
+        \item  third test: from the water storage outside the canteen to the trees, ~100 meters LoRa spreading factor set to 12.
+        \item  fourth test: same as the first but between the RaspberryPis there were more trees.
+        \item  fifth test: from the tree next to the canteen to "Canale Ledra". LoRa spreading factor set to 12.
+        \item  sixth test: communication from Autonomous System laboratory to Cybersecurity laboratory. LoRa spreading factor set to 10
+        \item  seventh test: communication inside the Autonomous System laboratory. LoRa spreading factor set to 10.
+\end{itemize}
 \newpage
 \appendix
 \newpage
