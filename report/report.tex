@@ -71,17 +71,24 @@ To start sending messages use the following command inside the "src" folder:
 \begin{minted}[breaklines]{bash}
 python -m sender.sender 
 \end{minted}
-\subsection{Reciever}
+\subsection{Receiver}
 Insider the receiver folder there are two files: \\
-receiver.py: this file was used to test if the receiver could actually receive and log the message. After the first test it has been observed that looping through a fixed range of values isn't the best approach since the sender and the reciever can't synchronize. 
-
-
-After this consideration it has been decided to choose a fixed amount of time, in this case 2 minutes, to send and receive messages. In this new file the messages were delayed based on the airtime. \\
-
+receiver.py: this file was used to test if the receiver could actually receive and log the message. After the first test it has been observed that looping through a fixed range of values isn't the best approach since the sender and the receiver can't synchronize. \\
+After this consideration it has been decided to choose a fixed amount of time, in this case 2 minutes, to send and receive messages. \\
 To start receiving messages use the following command inside the "src" folder:
 \begin{minted}[breaklines]{bash}
-python -m reciever.hf-reciever 
+python -m receiver.hf-receiver 
 \end{minted}
+\subsection{Utils}
+Inside the utils folder there are two files:
+\begin{itemize}
+        \item conversion.py: contains two helper function that convert a positive number to its digit representation in base b.
+        \item loggin.py: contain one helper function that create a logger and setup the folders to save the data from the communicator.
+\end{itemize}
+The first file has been created to solve the following problem: since the LoRaRaspberryPi library only transmit bytes of data it's necessary to convert the counter to a list of digits in base 255. \\
+It's has been used a list of digits to be able to send a counter greater than 255.
+\subsection{Analysis}
+In this section will be presented the data analysis based on the tests made outside the SMACT 3 laboratory.
 \newpage
 \appendix
 \newpage
