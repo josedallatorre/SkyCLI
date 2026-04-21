@@ -10,6 +10,7 @@
 \usepackage{url}
 \usepackage[backend=bibtex, sorting=none]{biblatex}
 \usepackage{subfiles} % Best loaded last in the preamble
+\graphicspath{ {images/} }
 \addbibresource[]{bibliography.bib}
 
 \title{
@@ -101,6 +102,15 @@ In total 7 test has been done:
 \end{itemize}
 The analysis starts with the installation of the required packages and the definition of the function already presented before. \\
 After that the data has been cleaned revealing 5 error in the sender logger and 1 invalid message in the receiver logger. Since it's a small amount these errors can be ignored. \\
+The first part of the analysis focuses on verifying how many messages has been successfully received. The pie chart of the message outcome per test appears in figure number \ref{fig:pie_chart_received_mgs}. \\
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{pie_chart_received_mgs}
+\caption{Example of a parametric plot ($\sin (x), \cos(x), x$)}
+\label{fig:pie_chart_received_mgs}
+\centering
+\end{figure}
+\\
+Remember that there are 5 errors in sender. 1 in 1 2 3 and 2 in 5
 \newpage
 \appendix
 \newpage
