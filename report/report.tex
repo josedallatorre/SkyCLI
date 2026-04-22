@@ -25,35 +25,36 @@
 \newpage
 \tableofcontents
 \newpage
-\section{Evaluating LoRa Comunication Protocol}
+\section{Evaluating LoRa Communication Protocol}
 \newpage
 \section{Setup}
-In this section is presented how to setup correctly the OS for the RaspberryPi, the repository and the libraries used by the proposed solution. \\
-After setting up the Raspberry Pi following the \href{https://www.raspberrypi.com/documentation/computers/getting-started.html}{official guide} it's necessary to enable SPI (Serial Peripheral Interface) selecting "Interface" and then "SPI" after using the following command.
+This section describes how to correctly set up the operating system on the Raspberry Pi, configure the repository, and install the required libraries for the proposed solution. \\
+After installing the Raspberry Pi OS following \href{https://www.raspberrypi.com/documentation/computers/getting-started.html}{official guide}, it is necessary to enable SPI (Serial Peripheral Interface). This can be done by running:
 \begin{minted}{bash}
 sudo raspi-config
 \end{minted}
-Then it's necessary to download the WiringPi library used to access GPIO with high performance. To do so requires the following command:
+Then navigate to "Interface" then "SPI" and enable it. \\
+Next, install the WiringPi library, which allows high-performance access to GPIO:
 \begin{minted}[breaklines]{bash}
 wget https://github.com/WiringPi/WiringPi/releases/download/3.16/wiringpi_3.16_armhf.deb
 sudo dpkg -i wiringpi_3.16_armhf.deb
 \end{minted}
-Lastly it's necessary to modify two files inside the LoRa-RaspberryPi folder:
+Two files inside the LoRa-RaspberryPi folder must be modified:
 \begin{itemize}
-        \item Makefile: \#PYTHONVER=python3.11 needs to match system's Python version:
-        \item lora.c: it's necessary to add \#define PY\_SSIZE\_T\_CLEAN on the first line for compatibility with new versions of Python.
+        \item Makefile: ensure \#PYTHONVER=python3.11 matches the system’s Python version
+        \item lora.c: add the following line at the top for compatibility with newer Python versions: \#define PY\_SSIZE\_T\_CLEAN 
 \end{itemize}
-To check out which version of Python it's installed use this command:
+To check the installed Python version:
 \begin{minted}{bash}
 python3 --version
 \end{minted}
-These two changes are already been made in the \href{https://github.com/josedallatorre/SkyCLI/}{updated repository} with the proposed solution inside the "src" folder. \\ 
-Finally it's necessary to compile with the following command:
+These modifications have already been applied in the \href{https://github.com/josedallatorre/SkyCLI/}{updated repository} (see the src folder).
+Finally, compile the project using:
 \begin{minted}{bash}
 make all
 \end{minted}
 \section{Proposed solution}
-In this section is presented the proposed solution, starting with its folder structure then explaining the code for the sender and the receiver. Lastly the code for the analysis will be presented.
+This section presents the proposed solution. It begins with an overview of the folder structure, followed by a description of the sender and receiver components. Finally, the data analysis process is discussed.
 \subsection{Folder structure}
 Inside the repository there are three folder:
 \begin{itemize}
@@ -62,21 +63,22 @@ Inside the repository there are three folder:
         \item analysis: inside this folder there's a notebook with the code for the analysis that will be explained later.
 \end{itemize}
 \subsection{Sender}
-Insider the sender folder there are two files: \\
-hf-sender.py: this file was used to test the maximum message sending capacity. It wasn't used during the last tests, the reasons will explained later. \\
-During the tests with hf-sender it has been observed that the messages were corrupted or the receiver didn't receive them correctly. \\
-After reading this \href{https://www.thethingsnetwork.org/docs/lorawan/spreading-factors/}{article} the code has been updated in a new file called sender.py
-In this new file the messages were delayed based on the airtime. \\
-To calculate the airtime it has been used the formula defined in \href{https://www.mouser.com/pdfdocs/semtech-lora-modem-design.pdf}{Semtech's LoRa Modem Designer's Guide (AN1200.13)}. \href{https://avbentem.github.io/airtime-calculator/ttn/eu868}{This} website visually explain how airtime is influenced by factor like payload size and data rate. \\
+Inside the sender folder, there are two files:
+hf-sender.py: initially used to test the maximum message throughput. However, it was not used in the final experiments due to reliability issues. \\
+During testing, it was observed that messages were often corrupted or not correctly received. \\
+After reviewing \href{https://www.thethingsnetwork.org/docs/lorawan/spreading-factors/}{relevant documentation}, the implementation was revised in a new file, sender.py. In this version, message transmission is delayed based on airtime. \\
+Airtime is computed using the formula defined in \href{https://www.mouser.com/pdfdocs/semtech-lora-modem-design.pdf}{Semtech's LoRa Modem Designer's Guide (AN1200.13)}. Additionally, an \href{https://avbentem.github.io/airtime-calculator/ttn/eu868}{online tool} was used to visualize how airtime is affected by parameters such as payload size and data rate.
 To start sending messages use the following command inside the "src" folder:
 \begin{minted}[breaklines]{bash}
 python -m sender.sender 
 \end{minted}
 \subsection{Receiver}
 Insider the receiver folder there are two files: \\
-receiver.py: this file was used to test if the receiver could actually receive and log the message. After the first test it has been observed that looping through a fixed range of values isn't the best approach since the sender and the receiver can't synchronize. \\
-After this consideration it has been decided to choose a fixed amount of time, in this case 2 minutes, to send and receive messages. \\
-To start receiving messages use the following command inside the "src" folder:
+Inside the receiver folder, there are two files:
+receiver.py: used to verify message reception and logging.
+Initial tests showed that iterating over a fixed number of messages was ineffective due to synchronization issues between sender and receiver.
+Therefore, a time-based approach was adopted: messages are sent and received over a fixed duration (2 minutes).
+To start the receiver use the following command inside the "src" folder:
 \begin{minted}[breaklines]{bash}
 python -m receiver.hf-receiver 
 \end{minted}
@@ -84,15 +86,15 @@ python -m receiver.hf-receiver
 Inside the utils folder there are two files:
 \begin{itemize}
         \item conversion.py: contains two helper function that convert a positive number to its digit representation in base b.
-        \item loggin.py: contains one helper function that create a logger and setup the folders to save the data from the communicator.
+        \item logging.py: contains one helper function that create a logger and setup the folders to save the data from the communicator.
 \end{itemize}
 The first file has been created to solve the following problem: since the LoRaRaspberryPi library only transmit bytes of data it's necessary to convert the counter to a list of digits in base 255. \\
 It's has been used a list of digits to be able to send a counter greater than 255.
-\subsection{Analysis}
+\section{Analysis}
 In this section will be presented the data analysis based on the tests made outside the SMACT 3 laboratory. \\
 In total 7 test has been done:
 \begin{itemize}
-        \item  first test: communication in the parking lot of the laboratory, ~100 meters. LoRa spreading factor set to 7.
+        \item  first test: communication in the parking area of the laboratory, ~100 meters. LoRa spreading factor set to 7.
         \item  second test: same as the first but with a spreading factor set to 12.
         \item  third test: from the water storage outside the canteen to the trees, ~100 meters LoRa spreading factor set to 12.
         \item  fourth test: same as the first but between the RaspberryPis there were more trees.
@@ -100,6 +102,7 @@ In total 7 test has been done:
         \item  sixth test: communication from Autonomous System laboratory to Cybersecurity laboratory. LoRa spreading factor set to 10
         \item  seventh test: communication inside the Autonomous System laboratory. LoRa spreading factor set to 10.
 \end{itemize}
+\subsection{Data Cleaning}
 The analysis starts with the installation of the required packages and the definition of the function already presented before. \\
 The collected data was preprocessed to remove inconsistencies. \\
 This step revealed:
@@ -108,6 +111,7 @@ This step revealed:
         \item 1 invalid message in the receiver logs
 \end{itemize}
 Given the small proportion of errors relative to the total number of transmitted messages, their impact on the overall results is minimal. Therefore, they are not expected to significantly affect the validity of the analysis. \\
+\subsection{Message Reliability}
 The first part of the analysis evaluates the reliability of the communication by measuring the proportion of successfully received messages. \\
 The results are summarized in \ref{fig:pie_chart_received_mgs}, which shows the distribution of message outcomes for each test. \\
 Since the sender and receiver were manually synchronized, some messages were transmitted before the receiver was ready. These messages are not classified as transmission errors but are instead considered a separate category. \\
@@ -117,6 +121,7 @@ The results indicate that:
         \item Only one invalid message was observed (Test 2)
         \item Sender-side logging errors occurred sporadically but did not affect reception significantly
 \end{itemize}
+askljd
 \\
 This suggests that the LoRa communication setup is robust under the tested conditions, even in the presence of obstacles and varying spreading factors. \\
 \begin{figure}[h]
@@ -125,7 +130,9 @@ This suggests that the LoRa communication setup is robust under the tested condi
 \label{fig:pie_chart_received_mgs}
 \centering
 \end{figure}
-The second part of the analysis focuses on communication latency.
+\subsection{Latency Analysis}
+The latency analysis was conducted by matching each received message with its corresponding transmitted message using the message counter. This allowed the computation of end-to-end transmission delay for each successfully received packet. \\
+Negative latencies and unmatched messages were filtered out to ensure data consistency.
 In particular, the following metrics were considered:
 \begin{itemize}
         \item Median latency (typical performance)
@@ -133,30 +140,89 @@ In particular, the following metrics were considered:
         \item 99th percentile latency (tail behavior)
 \end{itemize}
 These metrics allow the identification of latency spikes and help define acceptable performance bounds.
-The results are illustrated in:
+\subsection{Latency per Message}
+Figure \ref{fig:latency_per_test} shows the latency for each message across all tests.
+The results highlight that:
 \begin{itemize}
-        \item \ref{fig:latency_per_test}: latency per message
-        \item \ref{fig:latency_distribution}: latency distribution per test
-        \item \ref{fig:latency_heatmap}: latency heatmap
+        \item Latency is not constant but varies over time
+        \item Some tests exhibit occasional spikes, indicating unstable transmission conditions
+        \item Tests with higher spreading factors tend to show higher latency values
 \end{itemize}
 
+\subsection{Latency Distribution}
+Figure \ref{fig:latency_distribution} presents the latency distribution for each test using boxplots.
 The analysis shows that:
+\begin{itemize}
+        \item The median latency remains relatively stable within each test
+        \item The interquartile range varies significantly, indicating different levels of variability
+        \item Some tests contain outliers, corresponding to latency spikes observed in Figure 2
+\end{itemize}
 
-Higher spreading factors tend to increase latency due to longer airtime
-Latency variability is more pronounced in outdoor environments with obstacles
-Indoor tests exhibit more stable latency, likely due to controlled conditions
+In particular:
 
-Overall, the observed latency values remain within acceptable limits for low-throughput IoT communication scenarios.
+\begin{itemize}
+        \item Tests with higher spreading factors (e.g., SF12) exhibit wider distributions
+        \item Indoor tests show more compact distributions, suggesting more stable communication conditions
+\end{itemize}
+
+\subsection{Tail Latency (99th Percentile)}
+
+To better understand worst-case performance, the 99th percentile latency was computed for each test.
+
+The results indicate that:
+\begin{itemize}
+        \item While average latency remains acceptable,
+        \item Extreme values can be significantly higher, especially in outdoor scenarios
+\end{itemize}
+
+This suggests that environmental factors (e.g., obstacles, interference) can introduce occasional delays even when overall performance is stable.
 
 
+\subsection{Latency Heatmap}
 
-The analysis continues with checking on latencies. In particular the focus in on the median, maximum and 99-th percentile to highlight possible spikes and to define acceptable bounds.
+Figure \ref{fig:latency_heatmap} shows a heatmap representation of latency values across all tests.
+
+This visualization highlights:
+\begin{itemize}
+        \item Clusters of higher latency values (hotspots)
+        \item More uniform latency patterns in controlled environments
+\end{itemize}
+
+The heatmap confirms that latency variability is not random but often occurs in bursts, possibly due to temporary interference or transmission delays.
+
+
+\subsection{RSSI Analysis}
+
+
+In addition to latency, the Received Signal Strength Indicator (RSSI) was analyzed for each test.
+
+The RSSI distributions (Figures X and Y) show:
+\begin{itemize}
+        \item Variability in signal strength across different environments
+        \item Lower RSSI values in tests with obstacles or longer distances
+\end{itemize}
+
+The boxplots indicate that:
+
+\begin{itemize}
+        \item Indoor environments tend to produce more stable RSSI values
+        \item Outdoor tests show wider distributions, reflecting environmental variability
+\end{itemize}
+
+These results confirm that signal strength directly influences communication reliability and latency. \\
+The analysis shows that:
+\begin{itemize}
+        \item Higher spreading factors tend to increase latency due to longer airtime
+        \item Latency variability is more pronounced in outdoor environments with obstacles
+        \item Indoor tests exhibit more stable latency, likely due to controlled conditions
+\end{itemize}
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{latency_per_test}
 \caption{}
 \label{fig:latency_per_test}
 \centering
 \end{figure}
+sadkjh
 \\
 askjd
 \begin{figure}[h]
@@ -165,6 +231,7 @@ askjd
 \label{fig:latency_distribution}
 \centering
 \end{figure}
+askdj
 \\
 askjd
 \begin{figure}[h]
@@ -173,12 +240,95 @@ askjd
 \label{fig:latency_heatmap}
 \centering
 \end{figure}
+askjd
+\\
+askjd
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{PRRSI_histogram}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:PRRSI_histogram}
+\centering
+\end{figure}
+askjd
+\\
+askjd
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{PRRSI_boxplot}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:PRRSI_boxplot}
+\centering
+\end{figure}
+askjd
+\\
+askjd
+\\
+askjd
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{RRSI_histogram}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:RRSI_histogram}
+\centering
+\end{figure}
+askjd
+\\
+askjd
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{RRSI_boxplot}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:RRSI_boxplot}
+\centering
+\end{figure}
+askjd
+\\
+askjd
+\\
+askjd
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{SNR_histogram}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:SNR_histogram}
+\centering
+\end{figure}
+askjd
 \\
 askjd
 \newpage
 \newpage
 \section{Conclusion}
-Conclusion
+
+This report evaluated the performance of a LoRa-based communication system under different environmental conditions and configurations.
+
+The experimental results demonstrate that the system achieves high reliability, with only a minimal number of transmission errors observed across all tests. This confirms that LoRa is well-suited for long-range, low-power communication even in the presence of obstacles.
+
+Latency analysis revealed a clear trade-off between reliability and performance. Higher spreading factors improve message delivery success but introduce increased latency and variability. This trade-off is a fundamental characteristic of LoRa communication and must be considered when designing real-world applications.
+
+Environmental conditions also play a significant role. Indoor scenarios provide more stable performance, while outdoor environments introduce greater variability due to obstacles and interference.
+
+Overall, the system performs reliably with acceptable latency, making it suitable for low-throughput IoT applications such as monitoring and telemetry.
+
+Future work could focus on:
+\begin{itemize}
+    \item Automating synchronization between sender and receiver
+    \item Testing over longer distances
+    \item Evaluating performance under higher network load
+\end{itemize}
+
+
+
+Final Interpretation
+
+The combined analysis of reliability, latency, and RSSI reveals a clear trade-off in LoRa communication:
+
+Higher spreading factors improve robustness and reception reliability
+However, they also increase latency and variability
+
+Additionally:
+
+Environmental conditions (e.g., obstacles, distance) impact both latency and signal strength
+Indoor environments provide more stable performance compared to outdoor scenarios
+
+Overall, the system demonstrates high reliability with acceptable latency, making it suitable for low-throughput IoT applications.
+\end{document}
 \appendix
 \newpage
 
