@@ -101,29 +101,84 @@ In total 7 test has been done:
         \item  seventh test: communication inside the Autonomous System laboratory. LoRa spreading factor set to 10.
 \end{itemize}
 The analysis starts with the installation of the required packages and the definition of the function already presented before. \\
-After that the data has been cleaned revealing 5 error in the sender logger and 1 invalid message in the receiver logger. Since it's a small amount these errors can be ignored. \\
-The first part of the analysis focuses on verifying how many messages has been successfully received. The pie chart of the message outcomes per test appears in figure number \ref{fig:pie_chart_received_mgs}. \\
+The collected data was preprocessed to remove inconsistencies. \\
+This step revealed:
+\begin{itemize}
+        \item 5 errors in the sender logs
+        \item 1 invalid message in the receiver logs
+\end{itemize}
+Given the small proportion of errors relative to the total number of transmitted messages, their impact on the overall results is minimal. Therefore, they are not expected to significantly affect the validity of the analysis. \\
+The first part of the analysis evaluates the reliability of the communication by measuring the proportion of successfully received messages. \\
+The results are summarized in \ref{fig:pie_chart_received_mgs}, which shows the distribution of message outcomes for each test. \\
+Since the sender and receiver were manually synchronized, some messages were transmitted before the receiver was ready. These messages are not classified as transmission errors but are instead considered a separate category. \\
+The results indicate that:
+\begin{itemize}
+        \item Communication reliability is generally high across all tests
+        \item Only one invalid message was observed (Test 2)
+        \item Sender-side logging errors occurred sporadically but did not affect reception significantly
+\end{itemize}
+\\
+This suggests that the LoRa communication setup is robust under the tested conditions, even in the presence of obstacles and varying spreading factors. \\
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{pie_chart_received_mgs}
 \caption{Pie charts of the message outcomes per test}
 \label{fig:pie_chart_received_mgs}
 \centering
 \end{figure}
-\\
-Since the tests were synchronized manually it's necessary to consider that sometimes the sender and the receiver weren't synchronized. The messages that were sent before the receiver was ready won't be considered as errors but will be considered as a category per se instead. \\
-Given this assumption the plot highlight that only one message in the second test was invalid. It is necessary to remember that there were 5 errors in the sender's log. In particulary, there are one error in second, third and fourth test and two errors in the fifth one. \\
-The analysis continues with
-The pie chart of the message outcomes per test appears in figure number \ref{fig:pie_chart_received_mgs}. \\
+The second part of the analysis focuses on communication latency.
+In particular, the following metrics were considered:
+\begin{itemize}
+        \item Median latency (typical performance)
+        \item Maximum latency (worst-case scenario)
+        \item 99th percentile latency (tail behavior)
+\end{itemize}
+These metrics allow the identification of latency spikes and help define acceptable performance bounds.
+The results are illustrated in:
+\begin{itemize}
+        \item \ref{fig:latency_per_test}: latency per message
+        \item \ref{fig:latency_distribution}: latency distribution per test
+        \item \ref{fig:latency_heatmap}: latency heatmap
+\end{itemize}
+
+The analysis shows that:
+
+Higher spreading factors tend to increase latency due to longer airtime
+Latency variability is more pronounced in outdoor environments with obstacles
+Indoor tests exhibit more stable latency, likely due to controlled conditions
+
+Overall, the observed latency values remain within acceptable limits for low-throughput IoT communication scenarios.
+
+
+
+The analysis continues with checking on latencies. In particular the focus in on the median, maximum and 99-th percentile to highlight possible spikes and to define acceptable bounds.
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{pie_chart_received_mgs}
-\caption{Pie charts of the message outcomes per test}
-\label{fig:pie_chart_received_mgs}
+\includegraphics[width=\textwidth]{latency_per_test}
+\caption{}
+\label{fig:latency_per_test}
 \centering
 \end{figure}
 \\
+askjd
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{latency_distribution}
+\caption{}
+\label{fig:latency_distribution}
+\centering
+\end{figure}
+\\
+askjd
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{latency_heatmap}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:latency_heatmap}
+\centering
+\end{figure}
+\\
+askjd
 \newpage
 \newpage
 \section{Conclusion}
+Conclusion
 \appendix
 \newpage
 
