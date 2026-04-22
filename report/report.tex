@@ -84,7 +84,7 @@ python -m receiver.hf-receiver
 Inside the utils folder there are two files:
 \begin{itemize}
         \item conversion.py: contains two helper function that convert a positive number to its digit representation in base b.
-        \item loggin.py: contain one helper function that create a logger and setup the folders to save the data from the communicator.
+        \item loggin.py: contains one helper function that create a logger and setup the folders to save the data from the communicator.
 \end{itemize}
 The first file has been created to solve the following problem: since the LoRaRaspberryPi library only transmit bytes of data it's necessary to convert the counter to a list of digits in base 255. \\
 It's has been used a list of digits to be able to send a counter greater than 255.
@@ -102,14 +102,16 @@ In total 7 test has been done:
 \end{itemize}
 The analysis starts with the installation of the required packages and the definition of the function already presented before. \\
 After that the data has been cleaned revealing 5 error in the sender logger and 1 invalid message in the receiver logger. Since it's a small amount these errors can be ignored. \\
-The first part of the analysis focuses on verifying how many messages has been successfully received. The pie chart of the message outcome per test appears in figure number \ref{fig:pie_chart_received_mgs}. \\
+The first part of the analysis focuses on verifying how many messages has been successfully received. The pie chart of the message outcomes per test appears in figure number \ref{fig:pie_chart_received_mgs}. \\
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{pie_chart_received_mgs}
-\caption{Example of a parametric plot ($\sin (x), \cos(x), x$)}
+\caption{Pie charts of the message outcomes per test}
 \label{fig:pie_chart_received_mgs}
 \centering
 \end{figure}
 \\
+Since the tests were manual it's necessary to consider that the sender and the receiver weren't synchronized. The messages that were sent before the receiver was ready won't be considered as errors but will be considered as a category per se instead. \\
+Given this assumption the plot highlight that only one message in the second test was invalid. 
 Remember that there are 5 errors in sender. 1 in 1 2 3 and 2 in 5
 \newpage
 \appendix
