@@ -110,10 +110,20 @@ The first part of the analysis focuses on verifying how many messages has been s
 \centering
 \end{figure}
 \\
-Since the tests were manual it's necessary to consider that the sender and the receiver weren't synchronized. The messages that were sent before the receiver was ready won't be considered as errors but will be considered as a category per se instead. \\
-Given this assumption the plot highlight that only one message in the second test was invalid. 
-Remember that there are 5 errors in sender. 1 in 1 2 3 and 2 in 5
+Since the tests were synchronized manually it's necessary to consider that sometimes the sender and the receiver weren't synchronized. The messages that were sent before the receiver was ready won't be considered as errors but will be considered as a category per se instead. \\
+Given this assumption the plot highlight that only one message in the second test was invalid. It is necessary to remember that there were 5 errors in the sender's log. In particulary, there are one error in second, third and fourth test and two errors in the fifth one. \\
+The analysis continues with
+The pie chart of the message outcomes per test appears in figure number \ref{fig:pie_chart_received_mgs}. \\
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{pie_chart_received_mgs}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:pie_chart_received_mgs}
+\centering
+\end{figure}
+\\
 \newpage
+\newpage
+\section{Conclusion}
 \appendix
 \newpage
 
