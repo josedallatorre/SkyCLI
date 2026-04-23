@@ -119,7 +119,7 @@ The first part of the analysis evaluates the reliability of the communication by
 \end{figure}
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{SNR_histogram}
-\caption{Pie charts of the message outcomes per test}
+\caption{Histogram of the messages SNR per test}
 \label{fig:SNR_histogram}
 \centering
 \end{figure}
@@ -147,7 +147,7 @@ These metrics allow the identification of latency spikes and help define accepta
 Figure \ref{fig:latency_per_test} shows the latency for each message across all tests.\\
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{latency_per_test}
-\caption{}
+\caption{Latency for each message per test}
 \label{fig:latency_per_test}
 \centering
 \end{figure}
@@ -163,7 +163,7 @@ The results highlight that:
 Figure \ref{fig:latency_distribution} presents the latency distribution for each test using boxplots. \\
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{latency_distribution}
-\caption{}
+\caption{Latency distribution for each test}
 \label{fig:latency_distribution}
 \centering
 \end{figure}
@@ -193,7 +193,7 @@ This suggests that environmental factors (e.g., obstacles, interference) can int
 Figure \ref{fig:latency_heatmap} shows a heatmap representation of latency values across all tests.
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{latency_heatmap}
-\caption{Pie charts of the message outcomes per test}
+\caption{Latency heatmap of the messages latency}
 \label{fig:latency_heatmap}
 \centering
 \end{figure}
@@ -209,30 +209,30 @@ The heatmap confirms that latency variability is not random but often occurs in 
 In addition to latency, the Received Signal Strength Indicator (RSSI) was analyzed for each test. \\
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{PRRSI_histogram}
-\caption{Pie charts of the message outcomes per test}
+\caption{Histogram of the messages RRSI per test}
 \label{fig:PRRSI_histogram}
 \centering
 \end{figure}
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{PRRSI_boxplot}
-\caption{Pie charts of the message outcomes per test}
+\caption{PRRSI distribution for each test}
 \label{fig:PRRSI_boxplot}
 \centering
 \end{figure}
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{RRSI_histogram}
-\caption{Pie charts of the message outcomes per test}
+\caption{Histogram of the messages RRSI per test}
 \label{fig:RRSI_histogram}
 \centering
 \end{figure}
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{RRSI_boxplot}
-\caption{Pie charts of the message outcomes per test}
+\caption{RRSI distribution for each test}
 \label{fig:RRSI_boxplot}
 \centering
 \end{figure}
 \\
-The PRRSI and RSSI distributions (Figures \ref{fig:PRRSI_histogram}, \ref{fig:PRRSI_boxplot},  \ref{fig:RRSI_histogram} and \ref{fig:PRRSI_boxplot}) show:
+The PRRSI and RSSI distributions (Figures \ref{fig:PRRSI_histogram}, \ref{fig:PRRSI_boxplot},  \ref{fig:RRSI_histogram} and \ref{fig:RRSI_boxplot}) show:
 \begin{itemize}
         \item Variability in signal strength across different environments.
         \item Lower RSSI values in tests with obstacles or longer distances.
