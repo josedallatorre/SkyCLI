@@ -48,7 +48,7 @@ To check the installed Python version:
 \begin{minted}{bash}
 python3 --version
 \end{minted}
-These modifications have already been applied in the \href{https://github.com/josedallatorre/SkyCLI/}{updated repository} (see the src folder).
+These modifications have already been applied in the \href{https://github.com/josedallatorre/SkyCLI/}{updated repository} (see the src folder). \\
 Finally, compile the project using:
 \begin{minted}{bash}
 make all
@@ -67,17 +67,16 @@ Inside the sender folder, there are two files:
 hf-sender.py: initially used to test the maximum message throughput. However, it was not used in the final experiments due to reliability issues. \\
 During testing, it was observed that messages were often corrupted or not correctly received. \\
 After reviewing \href{https://www.thethingsnetwork.org/docs/lorawan/spreading-factors/}{relevant documentation}, the implementation was revised in a new file, sender.py. In this version, message transmission is delayed based on airtime. \\
-Airtime is computed using the formula defined in \href{https://www.mouser.com/pdfdocs/semtech-lora-modem-design.pdf}{Semtech's LoRa Modem Designer's Guide (AN1200.13)}. Additionally, an \href{https://avbentem.github.io/airtime-calculator/ttn/eu868}{online tool} was used to visualize how airtime is affected by parameters such as payload size and data rate.
+Airtime is computed using the formula defined in \href{https://www.mouser.com/pdfdocs/semtech-lora-modem-design.pdf}{Semtech's LoRa Modem Designer's Guide (AN1200.13)}. Additionally, an \href{https://avbentem.github.io/airtime-calculator/ttn/eu868}{online tool} was used to visualize how airtime is affected by parameters such as payload size and data rate. \\
 To start sending messages use the following command inside the "src" folder:
 \begin{minted}[breaklines]{bash}
 python -m sender.sender 
 \end{minted}
 \subsection{Receiver}
-Insider the receiver folder there are two files: \\
-Inside the receiver folder, there are two files:
-receiver.py: used to verify message reception and logging.
-Initial tests showed that iterating over a fixed number of messages was ineffective due to synchronization issues between sender and receiver.
-Therefore, a time-based approach was adopted: messages are sent and received over a fixed duration (2 minutes).
+Insider the receiver folder there are two files:
+receiver.py: used to verify message reception and logging. \\
+Initial tests showed that iterating over a fixed number of messages was ineffective due to synchronization issues between sender and receiver. \\
+Therefore, a time-based approach was adopted: messages are sent and received over a fixed duration (2 minutes). \\
 To start the receiver use the following command inside the "src" folder:
 \begin{minted}[breaklines]{bash}
 python -m receiver.hf-receiver 
@@ -94,68 +93,83 @@ It's has been used a list of digits to be able to send a counter greater than 25
 In this section will be presented the data analysis based on the tests made outside the SMACT 3 laboratory. \\
 In total 7 test has been done:
 \begin{itemize}
-        \item  first test: communication in the parking area of the laboratory, ~100 meters. LoRa spreading factor set to 7.
-        \item  second test: same as the first but with a spreading factor set to 12.
-        \item  third test: from the water storage outside the canteen to the trees, ~100 meters LoRa spreading factor set to 12.
-        \item  fourth test: same as the first but between the RaspberryPis there were more trees.
+        \item  first test: communication in the parking area of the laboratory, $\sim$100 meters. LoRa spreading factor set to 7.
+        \item  second test: same as the first test but with a spreading factor set to 12.
+        \item  third test: from the water storage outside the canteen to the trees, $\sim$100 meters, LoRa spreading factor set to 12.
+        \item  fourth test: same as the third test but with more obastacles (trees) between the RaspberryPi.
         \item  fifth test: from the tree next to the canteen to "Canale Ledra". LoRa spreading factor set to 12.
-        \item  sixth test: communication from Autonomous System laboratory to Cybersecurity laboratory. LoRa spreading factor set to 10
+        \item  sixth test: communication from Autonomous System laboratory to Cybersecurity laboratory. LoRa spreading factor set to 10.
         \item  seventh test: communication inside the Autonomous System laboratory. LoRa spreading factor set to 10.
 \end{itemize}
 \subsection{Data Cleaning}
-The analysis starts with the installation of the required packages and the definition of the function already presented before. \\
-The collected data was preprocessed to remove inconsistencies. \\
+The analysis starts with the installation of the required packages and the definition of the function already presented before. The collected data was preprocessed to remove inconsistencies. \\
 This step revealed:
 \begin{itemize}
-        \item 5 errors in the sender logs
-        \item 1 invalid message in the receiver logs
+        \item 5 errors in the sender logs.
+        \item 1 invalid message in the receiver logs.
 \end{itemize}
 Given the small proportion of errors relative to the total number of transmitted messages, their impact on the overall results is minimal. Therefore, they are not expected to significantly affect the validity of the analysis. \\
 \subsection{Message Reliability}
 The first part of the analysis evaluates the reliability of the communication by measuring the proportion of successfully received messages. \\
-The results are summarized in \ref{fig:pie_chart_received_mgs}, which shows the distribution of message outcomes for each test. \\
-Since the sender and receiver were manually synchronized, some messages were transmitted before the receiver was ready. These messages are not classified as transmission errors but are instead considered a separate category. \\
-The results indicate that:
-\begin{itemize}
-        \item Communication reliability is generally high across all tests
-        \item Only one invalid message was observed (Test 2)
-        \item Sender-side logging errors occurred sporadically but did not affect reception significantly
-\end{itemize}
-askljd
-\\
-This suggests that the LoRa communication setup is robust under the tested conditions, even in the presence of obstacles and varying spreading factors. \\
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{pie_chart_received_mgs}
 \caption{Pie charts of the message outcomes per test}
 \label{fig:pie_chart_received_mgs}
 \centering
 \end{figure}
+The results are summarized in \ref{fig:pie_chart_received_mgs}, which shows the distribution of message outcomes for each test. \\
+Since the sender and receiver were manually synchronized, some messages were transmitted before the receiver was ready. These messages are not classified as transmission errors but are instead considered a separate category. \\
+The results indicate that:
+\begin{itemize}
+        \item Communication reliability is generally high across all tests.
+        \item Only one invalid message was observed (Test 1).
+        \item Sender-side logging errors occurred sporadically but did not affect reception significantly.
+\end{itemize}
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{SNR_histogram}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:SNR_histogram}
+\centering
+\end{figure}
+This suggests that the LoRa communication setup is robust under the tested conditions, even in the presence of obstacles and varying spreading factors. \\
 \subsection{Latency Analysis}
 The latency analysis was conducted by matching each received message with its corresponding transmitted message using the message counter. This allowed the computation of end-to-end transmission delay for each successfully received packet. \\
 Negative latencies and unmatched messages were filtered out to ensure data consistency.
 In particular, the following metrics were considered:
 \begin{itemize}
-        \item Median latency (typical performance)
+        \item Median latency (typical performance).
         \item Maximum latency (worst-case scenario)
         \item 99th percentile latency (tail behavior)
 \end{itemize}
 These metrics allow the identification of latency spikes and help define acceptable performance bounds.
 \subsection{Latency per Message}
-Figure \ref{fig:latency_per_test} shows the latency for each message across all tests.
+Figure \ref{fig:latency_per_test} shows the latency for each message across all tests. \\
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{latency_per_test}
+\caption{}
+\label{fig:latency_per_test}
+\centering
+\end{figure}
 The results highlight that:
 \begin{itemize}
-        \item Latency is not constant but varies over time
-        \item Some tests exhibit occasional spikes, indicating unstable transmission conditions
-        \item Tests with higher spreading factors tend to show higher latency values
+        \item Latency is not constant but varies over time.
+        \item Some tests exhibit occasional spikes, indicating unstable transmission conditions.
+        \item Tests with higher spreading factors tend to show higher latency values.
 \end{itemize}
 
 \subsection{Latency Distribution}
-Figure \ref{fig:latency_distribution} presents the latency distribution for each test using boxplots.
+Figure \ref{fig:latency_distribution} presents the latency distribution for each test using boxplots. \\
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{latency_distribution}
+\caption{}
+\label{fig:latency_distribution}
+\centering
+\end{figure}
 The analysis shows that:
 \begin{itemize}
-        \item The median latency remains relatively stable within each test
-        \item The interquartile range varies significantly, indicating different levels of variability
-        \item Some tests contain outliers, corresponding to latency spikes observed in Figure 2
+        \item The median latency remains relatively stable within each test.
+        \item The interquartile range varies significantly, indicating different levels of variability.
+        \item Some tests contain outliers, corresponding to latency spikes observed in Figure \ref{fig:latency_per_test}.
 \end{itemize}
 
 In particular:
@@ -166,47 +180,68 @@ In particular:
 \end{itemize}
 
 \subsection{Tail Latency (99th Percentile)}
-
-To better understand worst-case performance, the 99th percentile latency was computed for each test.
-
+To better understand worst-case performance, the 99th percentile latency was computed for each test. \\
 The results indicate that:
 \begin{itemize}
         \item While average latency remains acceptable,
-        \item Extreme values can be significantly higher, especially in outdoor scenarios
+        \item Extreme values can be significantly higher, especially in outdoor scenarios.
 \end{itemize}
-
 This suggests that environmental factors (e.g., obstacles, interference) can introduce occasional delays even when overall performance is stable.
 
 
 \subsection{Latency Heatmap}
-
 Figure \ref{fig:latency_heatmap} shows a heatmap representation of latency values across all tests.
-
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{latency_heatmap}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:latency_heatmap}
+\centering
+\end{figure}
 This visualization highlights:
 \begin{itemize}
         \item Clusters of higher latency values (hotspots)
         \item More uniform latency patterns in controlled environments
 \end{itemize}
-
 The heatmap confirms that latency variability is not random but often occurs in bursts, possibly due to temporary interference or transmission delays.
 
 
 \subsection{RSSI Analysis}
-
-
-In addition to latency, the Received Signal Strength Indicator (RSSI) was analyzed for each test.
-
-The RSSI distributions (Figures X and Y) show:
+In addition to latency, the Received Signal Strength Indicator (RSSI) was analyzed for each test. \\
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{PRRSI_histogram}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:PRRSI_histogram}
+\centering
+\end{figure}
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{PRRSI_boxplot}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:PRRSI_boxplot}
+\centering
+\end{figure}
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{RRSI_histogram}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:RRSI_histogram}
+\centering
+\end{figure}
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{RRSI_boxplot}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:RRSI_boxplot}
+\centering
+\end{figure}
+The PRRSI and RSSI distributions (Figures \ref{fig:PRRSI_histogram}, \ref{fig:PRRSI_boxplot},  \ref{fig:RRSI_histogram} and \ref{fig:PRRSI_boxplot}) show:
 \begin{itemize}
-        \item Variability in signal strength across different environments
-        \item Lower RSSI values in tests with obstacles or longer distances
+        \item Variability in signal strength across different environments.
+        \item Lower RSSI values in tests with obstacles or longer distances.
 \end{itemize}
 
 The boxplots indicate that:
 
 \begin{itemize}
-        \item Indoor environments tend to produce more stable RSSI values
-        \item Outdoor tests show wider distributions, reflecting environmental variability
+        \item Indoor environments tend to produce more stable RSSI values.
+        \item Outdoor tests show wider distributions, reflecting environmental variability.
 \end{itemize}
 
 These results confirm that signal strength directly influences communication reliability and latency. \\
@@ -216,79 +251,7 @@ The analysis shows that:
         \item Latency variability is more pronounced in outdoor environments with obstacles
         \item Indoor tests exhibit more stable latency, likely due to controlled conditions
 \end{itemize}
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{latency_per_test}
-\caption{}
-\label{fig:latency_per_test}
-\centering
-\end{figure}
-sadkjh
-\\
-askjd
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{latency_distribution}
-\caption{}
-\label{fig:latency_distribution}
-\centering
-\end{figure}
-askdj
-\\
-askjd
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{latency_heatmap}
-\caption{Pie charts of the message outcomes per test}
-\label{fig:latency_heatmap}
-\centering
-\end{figure}
-askjd
-\\
-askjd
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{PRRSI_histogram}
-\caption{Pie charts of the message outcomes per test}
-\label{fig:PRRSI_histogram}
-\centering
-\end{figure}
-askjd
-\\
-askjd
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{PRRSI_boxplot}
-\caption{Pie charts of the message outcomes per test}
-\label{fig:PRRSI_boxplot}
-\centering
-\end{figure}
-askjd
-\\
-askjd
-\\
-askjd
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{RRSI_histogram}
-\caption{Pie charts of the message outcomes per test}
-\label{fig:RRSI_histogram}
-\centering
-\end{figure}
-askjd
-\\
-askjd
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{RRSI_boxplot}
-\caption{Pie charts of the message outcomes per test}
-\label{fig:RRSI_boxplot}
-\centering
-\end{figure}
-askjd
-\\
-askjd
-\\
-askjd
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{SNR_histogram}
-\caption{Pie charts of the message outcomes per test}
-\label{fig:SNR_histogram}
-\centering
-\end{figure}
+
 askjd
 \\
 askjd
