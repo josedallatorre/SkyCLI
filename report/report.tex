@@ -117,7 +117,14 @@ The first part of the analysis evaluates the reliability of the communication by
 \label{fig:pie_chart_received_mgs}
 \centering
 \end{figure}
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{SNR_histogram}
+\caption{Pie charts of the message outcomes per test}
+\label{fig:SNR_histogram}
+\centering
+\end{figure}
 The results are summarized in \ref{fig:pie_chart_received_mgs}, which shows the distribution of message outcomes for each test. \\
+Figure \ref{fig:SNR_histogram} shows the distribution of the Signal to Noise Ratio. Value equals to zero means no errors otherwise an error occured.\\
 Since the sender and receiver were manually synchronized, some messages were transmitted before the receiver was ready. These messages are not classified as transmission errors but are instead considered a separate category. \\
 The results indicate that:
 \begin{itemize}
@@ -125,12 +132,6 @@ The results indicate that:
         \item Only one invalid message was observed (Test 1).
         \item Sender-side logging errors occurred sporadically but did not affect reception significantly.
 \end{itemize}
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{SNR_histogram}
-\caption{Pie charts of the message outcomes per test}
-\label{fig:SNR_histogram}
-\centering
-\end{figure}
 This suggests that the LoRa communication setup is robust under the tested conditions, even in the presence of obstacles and varying spreading factors. \\
 \subsection{Latency Analysis}
 The latency analysis was conducted by matching each received message with its corresponding transmitted message using the message counter. This allowed the computation of end-to-end transmission delay for each successfully received packet. \\
@@ -143,13 +144,14 @@ In particular, the following metrics were considered:
 \end{itemize}
 These metrics allow the identification of latency spikes and help define acceptable performance bounds.
 \subsection{Latency per Message}
-Figure \ref{fig:latency_per_test} shows the latency for each message across all tests. \\
+Figure \ref{fig:latency_per_test} shows the latency for each message across all tests.\\
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{latency_per_test}
 \caption{}
 \label{fig:latency_per_test}
 \centering
 \end{figure}
+\\
 The results highlight that:
 \begin{itemize}
         \item Latency is not constant but varies over time.
@@ -165,20 +167,18 @@ Figure \ref{fig:latency_distribution} presents the latency distribution for each
 \label{fig:latency_distribution}
 \centering
 \end{figure}
+\\
 The analysis shows that:
 \begin{itemize}
         \item The median latency remains relatively stable within each test.
         \item The interquartile range varies significantly, indicating different levels of variability.
         \item Some tests contain outliers, corresponding to latency spikes observed in Figure \ref{fig:latency_per_test}.
 \end{itemize}
-
 In particular:
-
 \begin{itemize}
         \item Tests with higher spreading factors (e.g., SF12) exhibit wider distributions
         \item Indoor tests show more compact distributions, suggesting more stable communication conditions
 \end{itemize}
-
 \subsection{Tail Latency (99th Percentile)}
 To better understand worst-case performance, the 99th percentile latency was computed for each test. \\
 The results indicate that:
@@ -231,19 +231,17 @@ In addition to latency, the Received Signal Strength Indicator (RSSI) was analyz
 \label{fig:RRSI_boxplot}
 \centering
 \end{figure}
+\\
 The PRRSI and RSSI distributions (Figures \ref{fig:PRRSI_histogram}, \ref{fig:PRRSI_boxplot},  \ref{fig:RRSI_histogram} and \ref{fig:PRRSI_boxplot}) show:
 \begin{itemize}
         \item Variability in signal strength across different environments.
         \item Lower RSSI values in tests with obstacles or longer distances.
 \end{itemize}
-
 The boxplots indicate that:
-
 \begin{itemize}
         \item Indoor environments tend to produce more stable RSSI values.
         \item Outdoor tests show wider distributions, reflecting environmental variability.
 \end{itemize}
-
 These results confirm that signal strength directly influences communication reliability and latency. \\
 The analysis shows that:
 \begin{itemize}
@@ -251,46 +249,18 @@ The analysis shows that:
         \item Latency variability is more pronounced in outdoor environments with obstacles
         \item Indoor tests exhibit more stable latency, likely due to controlled conditions
 \end{itemize}
-
-askjd
-\\
-askjd
-\newpage
-\newpage
 \section{Conclusion}
-
-This report evaluated the performance of a LoRa-based communication system under different environmental conditions and configurations.
-
-The experimental results demonstrate that the system achieves high reliability, with only a minimal number of transmission errors observed across all tests. This confirms that LoRa is well-suited for long-range, low-power communication even in the presence of obstacles.
-
-Latency analysis revealed a clear trade-off between reliability and performance. Higher spreading factors improve message delivery success but introduce increased latency and variability. This trade-off is a fundamental characteristic of LoRa communication and must be considered when designing real-world applications.
-
-Environmental conditions also play a significant role. Indoor scenarios provide more stable performance, while outdoor environments introduce greater variability due to obstacles and interference.
-
-Overall, the system performs reliably with acceptable latency, making it suitable for low-throughput IoT applications such as monitoring and telemetry.
-
+This report evaluated the performance of a LoRa-based communication system under different environmental conditions and configurations. \\
+The experimental results demonstrate that the system achieves high reliability, with only a minimal number of transmission errors observed across all tests. This confirms that LoRa is well-suited for long-range, low-power communication even in the presence of obstacles. \\
+Latency analysis revealed a clear trade-off between reliability and performance. Higher spreading factors improve message delivery success but introduce increased latency and variability. This trade-off is a fundamental characteristic of LoRa communication and must be considered when designing real-world applications. \\
+Environmental conditions also play a significant role. Indoor scenarios provide more stable performance, while outdoor environments introduce greater variability due to obstacles and interference. \\
+Overall, the system performs reliably with acceptable latency, making it suitable for low-throughput IoT applications such as monitoring and telemetry. \\
 Future work could focus on:
 \begin{itemize}
     \item Automating synchronization between sender and receiver
     \item Testing over longer distances
     \item Evaluating performance under higher network load
 \end{itemize}
-
-
-
-Final Interpretation
-
-The combined analysis of reliability, latency, and RSSI reveals a clear trade-off in LoRa communication:
-
-Higher spreading factors improve robustness and reception reliability
-However, they also increase latency and variability
-
-Additionally:
-
-Environmental conditions (e.g., obstacles, distance) impact both latency and signal strength
-Indoor environments provide more stable performance compared to outdoor scenarios
-
-Overall, the system demonstrates high reliability with acceptable latency, making it suitable for low-throughput IoT applications.
 \end{document}
 \appendix
 \newpage
